@@ -11,33 +11,22 @@ bool isPowerOf(int number, int baseNumberToCheck) {
 }
 
 int findMinimumNumberOfSplits(String binaryNumber, int baseNumberToCheck) {
-  var length = binaryNumber.length;
-  var value;
-  var partitioningResults = <int>[]..length = length;
-  partitioningResults[length - 1] = binaryNumber[length - 1] == '0' ? -1 : 1;
-  for (var i = length - 2; i >= 0; i--) {
-    value = 0;
-    if (binaryNumber[i] == '0') {
-      partitioningResults[i] = -1;
-      continue;
-    }
-    partitioningResults[i] = 2020;
-    for (var j = i; j < length; j++) {
-      value = int.parse(binaryNumber[j], radix: 2);
-      if (isPowerOf(value, baseNumberToCheck)) {
-        if (j == length - 1) {
-          partitioningResults[i] = 1;
-        } else {
-          if (partitioningResults[j + 1] != -1) {
-            partitioningResults[i] =
-                min(partitioningResults[i], partitioningResults[j + 1] + 1);
-          }
-        }
+  var partitioningResult = <int>[]..length = binaryNumber.length + 1;
+  partitioningResult[0] = 0;
+  for (var i = 1; i <= binaryNumber.length; ++i) {
+    partitioningResult[i] = 2020;
+    for (var j = 1; j <= i; ++j) {
+      if (binaryNumber[j - 1] == '0') {
+        continue;
+      }
+      var number = int.parse(binaryNumber.substring(j - 1, i), radix: 2);
+      if (isPowerOf(number, baseNumberToCheck)) {
+        partitioningResult[i] =
+            min(partitioningResult[i], partitioningResult[j - 1] + 1);
       }
     }
-    if (partitioningResults[i] == 2020) {
-      partitioningResults[i] = -1;
-    }
   }
-  return partitioningResults[0];
+  return partitioningResult[binaryNumber.length] == 2020
+      ? -1
+      : partitioningResult[binaryNumber.length];
 }

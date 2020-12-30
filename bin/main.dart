@@ -1,5 +1,5 @@
-import 'package:algorithms_fourth_lab_dreamers/algorithm/number_of_splits.dart';
+import 'package:algorithms_fourth_lab_dreamers/utils/app_utils.dart';
 
 void main(List<String> arguments) {
-  print(findMinimumNumberOfSplits('100100100100', 6));
+  algorithmRunner();
 }
